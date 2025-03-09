@@ -24,7 +24,7 @@ def n_queen(n):
 
     return solutions
 
-def solutions(solutions, n):
+def print_solutions(solutions, n):
     for sol in solutions:
         for row in range(n):
             line = ['.'] * n
@@ -37,6 +37,6 @@ if n < 1:
     print("Invalid input! N must be a positive integer.")
 else:
     all_solutions = n_queen(n)
-    print(f"Total solutions for {n}-Queens: {len(solutions)}")
+    print(f"Total solutions for {n}-Queens: {len(all_solutions)}")
     if all_solutions:
-        solutions(solutions, n)
+        print_solutions(all_solutions, n)
