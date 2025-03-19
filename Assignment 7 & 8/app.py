@@ -4,14 +4,14 @@ import requests
 app = Flask(__name__)
 
 # Replace with your Alpha Vantage API key
-API_KEY = '3F3QZWLHPZAL57IZ'
+API_KEY = '5MJUDM1LQL44BHJ6'
 
 def get_stock_data(symbol):
     """Fetch real-time stock data."""
     url = f'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={symbol}&interval=5min&apikey={API_KEY}'
     response = requests.get(url)
     data = response.json()
-    
+    print("API Response:", data)  # Debug: Print API response
     time_series = data.get('Time Series (5min)', {})
     latest_time = next(iter(time_series), None)
     
@@ -33,7 +33,7 @@ def get_historical_data(symbol):
     url = f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={API_KEY}'
     response = requests.get(url)
     data = response.json()
-    
+    print("Historical API Response:", data)  # Debug: Print historical API response
     time_series = data.get('Time Series (Daily)', {})
     historical_data = []
     
@@ -52,8 +52,11 @@ def index():
     historical_data = None
     if request.method == 'POST':
         symbol = request.form['symbol']
+        print("Symbol Entered:", symbol)  # Debug: Print symbol entered by user
         stock_data = get_stock_data(symbol)
         historical_data = get_historical_data(symbol)
+        print("Stock Data:", stock_data)  # Debug: Print stock data
+        print("Historical Data:", historical_data)  # Debug: Print historical data
     return render_template('index.html', stock_data=stock_data, historical_data=historical_data)
 
 if __name__ == '__main__':
